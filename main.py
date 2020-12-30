@@ -16,6 +16,7 @@ from torch import optim
 import torch.nn.functional as F
 from model import SiameseNetwork, ContrastiveLoss
 import sys
+from config import Config
 
 
 def imshow(img,text=None,should_save=False):
@@ -31,13 +32,6 @@ def imshow(img,text=None,should_save=False):
 def show_plot(iteration,loss):
     plt.plot(iteration,loss)
     plt.show()
-
-
-class Config():
-    training_dir = "./data/faces/training/"
-    testing_dir = "./data/faces/testing/"
-    train_batch_size = 64
-    train_number_epochs = 100
 
 
 class SiameseNetworkDataset(Dataset):

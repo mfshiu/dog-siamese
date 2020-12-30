@@ -15,33 +15,34 @@ import torch.nn as nn
 from torch import optim
 import torch.nn.functional as F
 from model import SiameseNetwork, ContrastiveLoss
-import sys
+import sys, os
+from config import Config
 
 
 global use_gpu
 use_gpu = False
 
+trained_dir = "trained"
+if os.path.exists("trained"):
+    os.makedirs(trained_dir)
 
-def imshow(img,text=None,should_save=False):
+
+def imshow(img, text=None, save_path=None):
     npimg = img.numpy()
     plt.axis("off")
     if text:
-        plt.text(75, 8, text, style='italic',fontweight='bold',
-            bbox={'facecolor':'white', 'alpha':0.8, 'pad':10})
+        plt.text(75, 8, text, style='italic', fontweight='bold',
+                 bbox={'facecolor': 'white', 'alpha': 0.8, 'pad': 10})
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
+
+    if save_path:
+        plt.savefig(save_path)
     plt.show()
 
 
 def show_plot(iteration,loss):
     plt.plot(iteration,loss)
     plt.show()
-
-
-class Config():
-    training_dir = "./data/faces/training/"
-    testing_dir = "./data/faces/testing/"
-    train_batch_size = 64
-    train_number_epochs = 100
 
 
 class SiameseNetworkDataset(Dataset):
@@ -84,7 +85,7 @@ class SiameseNetworkDataset(Dataset):
         return len(self.imageFolderDataset.imgs)
 
 
-def train():
+def train(model_path):
     folder_dataset = dset.ImageFolder(root=Config.training_dir)
     siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
                                             transform=transforms.Compose([transforms.Resize((100, 100)),
@@ -126,6 +127,10 @@ def train():
                 iteration_number +=10
                 counter.append(iteration_number)
                 loss_history.append(loss_contrastive.item())
+
+    if model_path:
+        torch.save(net.state_dict(), model_path)
+
     show_plot(counter,loss_history)
 
 
@@ -134,6 +139,7 @@ if __name__ == '__main__':
         use_gpu = "gpu" == sys.argv[1]
     print('use_gpu：', use_gpu)
 
-    train()
+    model_path = os.path.join(trained_dir, "DogSiamese.pkl")
+    train(model_path)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
