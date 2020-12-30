@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import math
 
 
 class SiameseNetwork(nn.Module):
@@ -33,6 +34,16 @@ class SiameseNetwork(nn.Module):
 
             nn.Linear(500, 5))
 
+    def sigmoid(self, x):
+        return 1 / (1 + math.exp(-x))
+
+    def evaluate(self, x, y):
+        out1, out2 = self(x, y)
+        diss = nn.functional.pairwise_distance(out1, out2)
+        similarity = 2 * (1 - math.fabs(self.sigmoid(diss))) * 100
+
+        return similarity
+
     def forward_once(self, x):
         output = self.cnn1(x)
         output = output.view(output.size()[0], -1)
@@ -56,9 +67,8 @@ class ContrastiveLoss(torch.nn.Module):
         self.margin = margin
 
     def forward(self, output1, output2, label):
-        euclidean_distance = F.pairwise_distance(output1, output2, keepdim = True)
-        loss_contrastive = torch.mean((1-label) * torch.pow(euclidean_distance, 2) +
-                                      (label) * torch.pow(torch.clamp(self.margin - euclidean_distance, min=0.0), 2))
-
+        euclidean_distance = F.pairwise_distance(output1, output2, keepdim=True)
+        loss_contrastive = torch.mean((1 - label) * torch.pow(euclidean_distance, 2) +
+                                      label * torch.pow(torch.clamp(self.margin - euclidean_distance, min=0.0), 2))
 
         return loss_contrastive

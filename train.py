@@ -42,7 +42,6 @@ def show_plot(iteration,loss):
 
 
 class SiameseNetworkDataset(Dataset):
-
     def __init__(self, imageFolderDataset, transform=None, should_invert=True):
         self.imageFolderDataset = imageFolderDataset
         self.transform = transform
@@ -100,7 +99,7 @@ def train(model_path):
     else:
         net = SiameseNetwork().cpu()
     criterion = ContrastiveLoss()
-    optimizer = optim.Adam(net.parameters(),lr = 0.0005 )
+    optimizer = optim.Adam(net.parameters(), lr=0.0005)
 
     counter = []
     loss_history = []
@@ -135,7 +134,10 @@ if __name__ == '__main__':
         use_gpu = "gpu" == sys.argv[1]
     print('use_gpu：', use_gpu)
 
-    model_path = os.path.join(trained_dir, "DogSiamese.pkl")
+    if use_gpu:
+        model_path = os.path.join(trained_dir, "DogSiamese-gpu.pkl")
+    else:
+        model_path = os.path.join(trained_dir, "DogSiamese.pkl")
     train(model_path)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
