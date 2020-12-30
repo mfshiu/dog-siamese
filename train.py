@@ -81,6 +81,7 @@ class SiameseNetworkDataset(Dataset):
 
 
 def train(model_path):
+    print("Training dir: ", Config.training_dir)
     folder_dataset = dset.ImageFolder(root=Config.training_dir)
     siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
                                             transform=transforms.Compose([transforms.Resize((100, 100)),

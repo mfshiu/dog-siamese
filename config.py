@@ -7,7 +7,7 @@ class Config:
     train_number_epochs = 100
 
     class Evaluate:
-        model_path = "trained/DogSiamese.pkl"
+        model_path = "trained/DogSiamese-gpu.pkl"
         inference_output_path = "output/inferences.tsv"
         eer_output_path = "output/eer.tsv"
         dog_input_root = "data/faces/testing"
