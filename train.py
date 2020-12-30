@@ -19,7 +19,7 @@ global use_gpu
 use_gpu = False
 
 trained_dir = "trained"
-if os.path.exists(trained_dir):
+if not os.path.exists(trained_dir):
     os.makedirs(trained_dir)
 
 
