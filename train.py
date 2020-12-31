@@ -119,7 +119,7 @@ def train(model_path):
             loss_contrastive.backward()
             optimizer.step()
             if i % 10 == 0:
-                print("Epoch number {}\n Current loss {}\n".format(epoch, loss_contrastive.item()))
+                print("Epoch number {}/{}\n Current loss {}\n".format(epoch, Config.max_epochs, loss_contrastive.item()))
                 iteration_number += 10
                 counter.append(iteration_number)
                 loss_history.append(loss_contrastive.item())
