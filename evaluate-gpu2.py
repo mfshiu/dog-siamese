@@ -6,6 +6,7 @@ import torch
 import os
 import torchvision.transforms as transforms
 from PIL import Image
+import PIL.ImageOps
 from model import SiameseNetwork
 import torchvision.datasets as dset
 from config import Config
@@ -18,7 +19,7 @@ if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
 
-image_size = 100
+image_size = 128
 # threshold = 0.76
 model_path = "./trained/DogSiamese.pkl"
 use_gpu = False
@@ -28,57 +29,38 @@ class TestDataset(Dataset):
     def __init__(self, left_image, right_images):
         self.left_image = left_image
         self.right_images = right_images
-        self.transform = transforms.Compose([transforms.Resize((image_size, image_size)),
-                                             transforms.ToTensor(),
-                                             ])
+        self.transform = transforms.Compose([
+            # transforms.ToPILImage(),
+            transforms.CenterCrop(400),
+            transforms.Compose([transforms.Resize((image_size, image_size))]),
+            transforms.RandomRotation(50),
+            transforms.ToTensor(),
+        ])
 
     def __getitem__(self, idx):
         left_img = self.left_image
         right_img = self.right_images[idx]
 
-        img0 = Image.open(left_img).convert("L")
-        img1 = Image.open(right_img).convert("L")
-        img0 = self.transform(img0)
-        img1 = self.transform(img1)
+        img0 = Image.open(left_img)
+        img1 = Image.open(right_img)
+        img0 = img0.convert("RGB")
+        img1 = img1.convert("RGB")
 
-        return img0, img1
-
-    def __len__(self):
-        return len(self.right_images)
-
-class SiameseNetworkDataset(Dataset):
-    def __init__(self, imageFolderDataset, transform=None, should_invert=True):
-        self.imageFolderDataset = imageFolderDataset
-        self.transform = transform
-        self.should_invert = should_invert
-
-    def __get_imgs(self):
-        # we need to make sure approx 50% of images are in the same class
-        if random.randint(0, 1):
-            the_class = random.choice(self.imageFolderDataset.classes)
-            img0_tuple, img1_tuple = random.sample([x for x in self.imageFolderDataset.imgs if the_class in x[0]], 2)
-        else:
-            class_1, class_2 = random.sample(self.imageFolderDataset.classes, 2)
-            img0_tuple = random.choice([x for x in self.imageFolderDataset.imgs if class_1 in x[0]])
-            img1_tuple = random.choice([x for x in self.imageFolderDataset.imgs if class_2 in x[0]])
-        return img0_tuple, img1_tuple
-
-    def __getitem__(self, index):
-        img0_tuple, img1_tuple = self.__get_imgs()
-
-        img0 = Image.open(img0_tuple[0])
-        img1 = Image.open(img1_tuple[0])
-        img0 = img0.convert("L")
-        img1 = img1.convert("L")
+        if self.should_invert:
+            img0 = PIL.ImageOps.invert(img0)
+            img1 = PIL.ImageOps.invert(img1)
 
         if self.transform is not None:
             img0 = self.transform(img0)
             img1 = self.transform(img1)
 
-        return img0, img1, torch.from_numpy(np.array([int(img1_tuple[1] != img0_tuple[1])], dtype=np.float32))
+        img0 = torch.as_tensor(np.reshape(img0, (3, image_size, image_size)), dtype=torch.float32)
+        img1 = torch.as_tensor(np.reshape(img1, (3, image_size, image_size)), dtype=torch.float32)
+
+        return img0, img1
 
     def __len__(self):
-        return len(self.imageFolderDataset.imgs)
+        return len(self.right_images)
 
 
 def calculate_far_frr(inferences, group_size, threshold):
