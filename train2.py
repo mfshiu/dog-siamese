@@ -145,10 +145,7 @@ if __name__ == '__main__':
         use_gpu = "gpu" == sys.argv[1]
     print('use_gpu：', use_gpu)
 
-    if use_gpu:
-        model_path = os.path.join(trained_dir, "DogSiamese-gpu.pkl")
-    else:
-        model_path = os.path.join(trained_dir, "DogSiamese.pkl")
+    model_path = os.path.join(trained_dir, "DogSiamese.pkl")
     train(model_path)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
