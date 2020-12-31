@@ -132,7 +132,7 @@ if __name__ == '__main__':
         use_gpu = "gpu" == sys.argv[1]
     print('use_gpu：', use_gpu)
 
-    folder_dataset = dset.ImageFolder(root=Config.training_dir)
+    folder_dataset = dset.ImageFolder(root=Config.train_dir)
     siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
                                             transform=transforms.Compose([transforms.Resize((100, 100)),
                                                                           transforms.ToTensor()

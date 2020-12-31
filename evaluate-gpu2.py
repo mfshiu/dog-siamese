@@ -108,7 +108,7 @@ if __name__ == '__main__':
     model_path = Config.Evaluate.model_path
     inference_output_path = Config.Evaluate.inference_output_path
     eer_output_path = Config.Evaluate.eer_output_path
-    dog_input_root = Config.Evaluate.dog_input_root
+    dog_input_root = Config.Evaluate.test_dir
     dog_count = Config.Evaluate.dog_count
     group_size = Config.Evaluate.group_size
 
@@ -153,26 +153,3 @@ if __name__ == '__main__':
 
     with open(eer_output_path, "w") as fp:
         fp.writelines(lines)
-
-
-if __name__ == 'test__main__':
-    folder_dataset = dset.ImageFolder(root=Config.testing_dir)
-    siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
-                                            transform=transforms.Compose([transforms.Resize((100, 100)),
-                                                                          transforms.ToTensor()
-                                                                          ])
-                                            , should_invert=False)
-
-    test_dataloader = DataLoader(siamese_dataset,
-                                 shuffle=True,
-                                 num_workers=8,
-                                 batch_size=1)
-
-    model_test = SiameseNetwork().cuda()
-    model_test.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
-    model_test.eval()
-
-    for i, data in enumerate(test_dataloader):
-        img0, img1, label = data
-        similarity = model_test.evaluate(img0.cuda(), img1.cuda())
-    print()

@@ -126,7 +126,7 @@ if __name__ == '__main__':
     model_path = Config.Evaluate.model_path
     inference_output_path = Config.Evaluate.inference_output_path
     eer_output_path = Config.Evaluate.eer_output_path
-    dog_input_root = Config.Evaluate.dog_input_root
+    dog_input_root = Config.Evaluate.test_dir
     dog_count = Config.Evaluate.dog_count
     group_size = Config.Evaluate.group_size
 
