@@ -130,3 +130,5 @@ dmypy.json
 /trained/DogSiamese.pkl
 /output/
 /train-3080.py
+/_bak/
+/config.py
