@@ -1,6 +1,8 @@
 class Config:
-    training_dir = "./data/dogs/training/"
-    testing_dir = "./data/dogs/testing/"
+    training_dir = "./data/dogs-ct/training/"
+    testing_dir = "./data/dogs-ct/testing/"
+    # training_dir = "./data/dogs/training/"
+    # testing_dir = "./data/dogs/testing/"
     train_batch_size = 64
     train_number_epochs = 100
 

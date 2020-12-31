@@ -4,14 +4,14 @@ kiwisolver==1.3.1
 matplotlib==3.3.3
 numpy==1.19.4
 olefile==0.46
-Pillow @ file:///opt/concourse/worker/volumes/live/991b9a87-3372-4acd-45f9-eaa52701f03c/volume/pillow_1603822262543/work
+# Pillow @ file:///opt/concourse/worker/volumes/live/991b9a87-3372-4acd-45f9-eaa52701f03c/volume/pillow_1603822262543/work
 pycairo @ git+https://github.com/pygobject/pycairo.git@dad2b743b957c9579542e5923a8e5aa5ca790b88
 pyparsing==2.4.7
 python-dateutil==2.8.1
-six @ file:///opt/concourse/worker/volumes/live/5b31cb27-1e37-4ca5-6e9f-86246eb206d2/volume/six_1605205320872/work
+# six @ file:///opt/concourse/worker/volumes/live/5b31cb27-1e37-4ca5-6e9f-86246eb206d2/volume/six_1605205320872/work
 torch==1.7.1
 torchaudio==0.7.2
 torchvision==0.8.2
-typing-extensions @ file:///tmp/build/80754af9/typing_extensions_1598376058250/work
+# typing-extensions @ file:///tmp/build/80754af9/typing_extensions_1598376058250/work
 
-pillow~=8.0.1
+# pillow~=8.0.1

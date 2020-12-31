@@ -6,7 +6,8 @@ import torch
 import os
 import torchvision.transforms as transforms
 from PIL import Image
-from model import SiameseNetwork
+# from model import SiameseNetwork
+from modeldeep import SiameseNetwork
 import torchvision.datasets as dset
 from config import Config
 import torch.nn as nn
