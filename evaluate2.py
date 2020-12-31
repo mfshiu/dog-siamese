@@ -22,7 +22,6 @@ if not os.path.exists(output_dir):
 image_size = 128
 # threshold = 0.76
 model_path = "./trained/DogSiamese.pkl"
-use_gpu = False
 
 
 class TestDataset(Dataset):
@@ -94,7 +93,7 @@ def verify_dogs(test_model, left_dogs, right_dogs):
         test_dataloader = DataLoader(test_set, shuffle=False, batch_size=1, num_workers=0)
         for i, data in enumerate(test_dataloader):
             img0, img1 = data
-            similarity = test_model.evaluate(img0.cuda(), img1.cuda())
+            similarity = test_model.evaluate(img0.cpu(), img1.cpu())
             inf.append(similarity)
             print("\r%s | %s = %f" % (left_dog, right_dogs[i], similarity), end="")
         print()
@@ -117,8 +116,8 @@ if __name__ == '__main__':
     print("dog_count: %s" % (dog_count,))
     print("group_size: %s" % (group_size,))
 
-    siam_test = SiameseNetwork().cuda()
-    siam_test.load_state_dict(torch.load(model_path, map_location=torch.device('cuda:0')))
+    siam_test = SiameseNetwork().cpu()
+    siam_test.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
     siam_test.eval()
 
     dog_paths = [x for x in os.walk(dog_input_root)]
@@ -168,11 +167,11 @@ if __name__ == 'test__main__':
                                  num_workers=8,
                                  batch_size=1)
 
-    model_test = SiameseNetwork().cuda()
+    model_test = SiameseNetwork().cpu()
     model_test.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
     model_test.eval()
 
     for i, data in enumerate(test_dataloader):
         img0, img1, label = data
-        similarity = model_test.evaluate(img0.cuda(), img1.cuda())
+        similarity = model_test.evaluate(img0.cpu(), img1.cpu())
     print()
