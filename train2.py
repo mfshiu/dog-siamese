@@ -86,9 +86,13 @@ def train(model_path):
     print("Training dir: ", Config.training_dir)
     folder_dataset = dset.ImageFolder(root=Config.training_dir)
     siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
-                                            transform=transforms.Compose([transforms.Resize((image_size, image_size)),
-                                                                          transforms.ToTensor()
-                                                                          ])
+                                            transform=transforms.Compose([
+                                                # transforms.ToPILImage(),
+                                                transforms.CenterCrop(400),
+                                                transforms.Compose([transforms.Resize((image_size, image_size))]),
+                                                transforms.RandomRotation(50),
+                                                transforms.ToTensor(),
+                                            ])
                                             , should_invert=False)
 
     train_dataloader = DataLoader(siamese_dataset,
