@@ -13,7 +13,7 @@ from torch import optim
 from torch.utils.data import DataLoader, Dataset
 
 from config import Config
-# from model import SiameseNetwork, ContrastiveLoss
+# from model import SiameseNetwork, ContrastiveLoss #難難
 from model2 import SiameseNetwork, ContrastiveLoss
 
 global use_gpu
