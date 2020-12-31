@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 /trained/DogSiamese.pkl
 /output/
+/train-3080.py

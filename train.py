@@ -106,7 +106,7 @@ def train(model_path):
     loss_history = []
     iteration_number = 0
 
-    for epoch in range(0,Config.train_number_epochs):
+    for epoch in range(0, Config.max_epochs):
         for i, data in enumerate(train_dataloader, 0):
             img0, img1, label = data
             if use_gpu:

@@ -4,7 +4,7 @@ class Config:
     # training_dir = "./data/dogs/training/"
     # testing_dir = "./data/dogs/testing/"
     train_batch_size = 64
-    train_number_epochs = 100
+    max_epochs = 100
 
     class Evaluate:
         model_path = "trained/DogSiamese-gpu.pkl"
