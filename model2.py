@@ -1,25 +1,12 @@
-import numpy as np
-import pandas as pd
-import torchvision.transforms as transforms
-import matplotlib.pyplot as plt
-import torch as to
+import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader, Dataset
-
-use_gpu = False
-
-
-def is_use_gpu():
-    return use_gpu and to.cuda.is_available()
+import torch.nn.functional as F
+import math
 
 
-class Siamese(nn.Module):
-    
+class SiameseNetwork(nn.Module):
     def __init__(self):
-        super(Siamese,self).__init__()
-        
-        # A simple two layer convolution followed by three fully connected layers should do
-        
+        super(SiameseNetwork, self).__init__()
         self.cnn = nn.Sequential(
             nn.Conv2d(3, 64, 3, 1, 1),  # [64, 128, 128]
             nn.BatchNorm2d(64),
@@ -48,9 +35,8 @@ class Siamese(nn.Module):
             nn.BatchNorm2d(512),
             nn.ReLU(),
             nn.MaxPool2d(2, 2, 0),       # [512, 8, 8]
-            
         )
-        
+
         self.fc = nn.Sequential(
             nn.Linear(512*2*2, 128),
             nn.ReLU(),
@@ -58,47 +44,42 @@ class Siamese(nn.Module):
             nn.ReLU(),
             nn.Linear(64, 2)
         )
-        
-        
-    def forward_once(self,x):
-        out = self.cnn(x)
-        #print(out.shape)
-        out = out.view(out.size()[0], -1)
-        return self.fc(out)
-    
-    def forward(self, x, y):    
-        
-        # doing the forwarding twice so as to obtain the same functions as that of twin networks
-        
-        out1 = self.forward_once(x)
-        out2 = self.forward_once(y)
-        
-        return out1, out2
-    
-    
-    def evaluate(self, x, y):
-        
-        # this can be used later for evalutation
 
-        if is_use_gpu():
-            m = to.tensor(1.0, dtype=to.float32).cuda()
-            if type(m) != type(x):
-                x = to.tensor(x, dtype = to.float32, requires_grad = False).cuda()
-            if type(m) != type(y):
-                y = to.tensor(y, dtype = to.float32, requires_grad = False).cuda()
-        else:
-            m = to.tensor(1.0, dtype=to.float32).cpu()
-            if type(m) != type(x):
-                x = to.tensor(x, dtype = to.float32, requires_grad = False).cpu()
-            if type(m) != type(y):
-                y = to.tensor(y, dtype = to.float32, requires_grad = False).cpu()
-        
-        x = x.view(-1,3,128,128)
-        y = y.view(-1,3,128,128)
-        
-        with to.no_grad():
-            
-            out1, out2 = self.forward(x, y)
-            
-            return nn.functional.pairwise_distance(out1, out2)
-        
+    def sigmoid(self, x):
+        return 1 / (1 + math.exp(-x))
+
+    def evaluate(self, x, y):
+        out1, out2 = self(x, y)
+        diss = nn.functional.pairwise_distance(out1, out2)
+        similarity = 2 * (1 - math.fabs(self.sigmoid(diss))) * 100
+
+        return similarity
+
+    def forward_once(self, x):
+        output = self.cnn(x)
+        output = output.view(output.size()[0], -1)
+        output = self.fc(output)
+        return output
+
+    def forward(self, input1, input2):
+        output1 = self.forward_once(input1)
+        output2 = self.forward_once(input2)
+        return output1, output2
+
+
+class ContrastiveLoss(torch.nn.Module):
+    """
+    Contrastive loss function.
+    Based on: http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
+    """
+
+    def __init__(self, margin=2.0):
+        super(ContrastiveLoss, self).__init__()
+        self.margin = margin
+
+    def forward(self, output1, output2, label):
+        euclidean_distance = F.pairwise_distance(output1, output2, keepdim=True)
+        loss_contrastive = torch.mean((1 - label) * torch.pow(euclidean_distance, 2) +
+                                      label * torch.pow(torch.clamp(self.margin - euclidean_distance, min=0.0), 2))
+
+        return loss_contrastive

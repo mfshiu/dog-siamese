@@ -13,12 +13,13 @@ from torch import optim
 from torch.utils.data import DataLoader, Dataset
 
 from config import Config
-from model import SiameseNetwork, ContrastiveLoss
+# from model import SiameseNetwork, ContrastiveLoss
+from model2 import SiameseNetwork, ContrastiveLoss
 
 global use_gpu
 use_gpu = False
 
-image_size = 100
+image_size = 128
 
 trained_dir = "trained"
 if not os.path.exists(trained_dir):
@@ -65,8 +66,8 @@ class SiameseNetworkDataset(Dataset):
 
         img0 = Image.open(img0_tuple[0])
         img1 = Image.open(img1_tuple[0])
-        img0 = img0.convert("L")
-        img1 = img1.convert("L")
+        img0 = img0.convert("RGB")
+        img1 = img1.convert("RGB")
 
         if self.should_invert:
             img0 = PIL.ImageOps.invert(img0)
@@ -75,6 +76,9 @@ class SiameseNetworkDataset(Dataset):
         if self.transform is not None:
             img0 = self.transform(img0)
             img1 = self.transform(img1)
+
+        img0 = torch.as_tensor(np.reshape(img0, (3, image_size, image_size)), dtype=torch.float32)
+        img1 = torch.as_tensor(np.reshape(img1, (3, image_size, image_size)), dtype=torch.float32)
 
         return img0, img1, torch.from_numpy(np.array([int(img1_tuple[1] != img0_tuple[1])], dtype=np.float32))
 
