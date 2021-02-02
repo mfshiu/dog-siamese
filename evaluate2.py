@@ -130,9 +130,12 @@ if __name__ == '__main__':
     dogs = len(img_paths)
     group_count = int(dogs / group_size)
     header = [""]
+    d = 0
     for g in range(group_count):
         for i in range(group_size):
-            header.append("{}-{}".format(g+1, i+1))
+            header.append("{}".format(img_paths[d]))
+            d += 1
+            # header.append("{}-{}".format(g+1, i+1))
     lines = ["\t".join(header) + "\n"]
     for dd in range(dogs):
         line = header[dd + 1] + "\t"
