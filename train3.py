@@ -94,9 +94,10 @@ def train(model_path):
     siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
                                             transform=transforms.Compose([
                                                 transforms.Resize((image_size, image_size)),
+                                                transforms.RandomHorizontalFlip(p=0.5),
                                                 transforms.RandomRotation(10),
                                                 transforms.ToTensor(),
-                                                transforms.Normalize(mean, std)
+                                                # transforms.Normalize(mean, std)
                                             ])
                                             , should_invert=False)
     # siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,

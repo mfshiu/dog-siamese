@@ -36,7 +36,7 @@ class TestDataset(Dataset):
         self.transform = transforms.Compose([
             transforms.Resize((image_size, image_size)),
             transforms.ToTensor(),
-            transforms.Normalize(mean, std)
+            # transforms.Normalize(mean, std)
         ])
 
     def __getitem__(self, idx):
