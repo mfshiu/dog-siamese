@@ -13,13 +13,13 @@ from torch import optim
 from torch.utils.data import DataLoader, Dataset
 
 from config import Config
-# from model import SiameseNetwork, ContrastiveLoss #難難
-from model2 import SiameseNetwork, ContrastiveLoss
+from model import SiameseNetwork, ContrastiveLoss
+# from model2 import SiameseNetwork, ContrastiveLoss
 
 global use_gpu
 use_gpu = False
 
-image_size = 128
+image_size = 100
 
 trained_dir = "trained"
 if not os.path.exists(trained_dir):
