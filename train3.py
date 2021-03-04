@@ -97,7 +97,7 @@ def train(model_path):
                                                 transforms.ColorJitter(
                                                     brightness=0.05, contrast=0.05,
                                                     saturation=0.05, hue=0.05),
-                                                transforms.Grayscale(),
+                                                # transforms.Grayscale(),
                                                 transforms.RandomHorizontalFlip(p=0.5),
                                                 transforms.RandomRotation(10),
                                                 transforms.RandomPerspective(
