@@ -100,6 +100,8 @@ def train(model_path):
                                                 transforms.Grayscale(),
                                                 transforms.RandomHorizontalFlip(p=0.5),
                                                 transforms.RandomRotation(10),
+                                                transforms.RandomPerspective(
+                                                    distortion_scale=0.05, p=1, fill=(0, 0, 0)),
                                                 transforms.ToTensor(),
                                                 # transforms.Normalize(mean, std)
                                             ])
