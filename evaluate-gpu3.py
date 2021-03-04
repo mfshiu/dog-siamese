@@ -44,8 +44,8 @@ class TestDataset(Dataset):
 
         img0 = Image.open(left_img)
         img1 = Image.open(right_img)
-        img0 = img0.convert("RGB")
-        img1 = img1.convert("RGB")
+        img0 = img0.convert("L")
+        img1 = img1.convert("L")
 
         if self.should_invert:
             img0 = PIL.ImageOps.invert(img0)
