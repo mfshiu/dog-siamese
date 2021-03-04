@@ -28,8 +28,8 @@ use_gpu = False
 
 class TestDataset(Dataset):
     def __init__(self, left_image, right_images):
-        mean = [0.5, 0.5, 0.5]
-        std = [0.5, 0.5, 0.5]
+        mean = [0.5]
+        std = [0.5]
         self.should_invert = False
         self.left_image = left_image
         self.right_images = right_images
