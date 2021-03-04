@@ -19,7 +19,8 @@ if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
 
-image_size = 100
+# image_size = 100
+from train3 import image_size
 # threshold = 0.76
 model_path = "./trained/DogSiamese.pkl"
 use_gpu = False
@@ -34,7 +35,7 @@ class TestDataset(Dataset):
             # transforms.ToPILImage(),
             transforms.CenterCrop(400),
             transforms.Compose([transforms.Resize((image_size, image_size))]),
-            transforms.RandomRotation(50),
+            # transforms.RandomRotation(50),
             transforms.ToTensor(),
         ])
 
