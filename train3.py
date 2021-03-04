@@ -95,8 +95,8 @@ def train(model_path):
                                             transform=transforms.Compose([
                                                 transforms.Resize((image_size, image_size)),
                                                 transforms.ColorJitter(
-                                                    brightness=(0, 36), contrast=(0, 10),
-                                                    saturation=(0, 25), hue=(-0.5, 0.5)),
+                                                    brightness=(0, 10), contrast=(0, 10),
+                                                    saturation=(0, 10), hue=(-0.1, 0.1)),
                                                 transforms.RandomHorizontalFlip(p=0.5),
                                                 transforms.RandomRotation(10),
                                                 transforms.ToTensor(),
