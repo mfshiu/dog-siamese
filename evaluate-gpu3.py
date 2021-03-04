@@ -28,9 +28,8 @@ use_gpu = False
 
 class TestDataset(Dataset):
     def __init__(self, left_image, right_images):
-        mean = [0.5]
-        std = [0.5]
-        self.should_invert = False
+        # mean = [0.5]
+        # std = [0.5]
         self.left_image = left_image
         self.right_images = right_images
         self.transform = transforms.Compose([
@@ -48,12 +47,8 @@ class TestDataset(Dataset):
         img1 = Image.open(right_img)
         img0 = img0.convert("L")
         img1 = img1.convert("L")
-        img0 = ImageEnhance.Sharpness(img0).enhance(10.0)
-        img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
-
-        if self.should_invert:
-            img0 = PIL.ImageOps.invert(img0)
-            img1 = PIL.ImageOps.invert(img1)
+        # img0 = ImageEnhance.Sharpness(img0).enhance(10.0)
+        # img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
 
         if self.transform is not None:
             img0 = self.transform(img0)

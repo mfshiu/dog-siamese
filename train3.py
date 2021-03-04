@@ -44,7 +44,7 @@ def show_plot(iteration,loss):
     plt.show()
 
 
-img_cache = {}
+# img_cache = {}
 
 
 class SiameseNetworkDataset(Dataset):
@@ -66,31 +66,21 @@ class SiameseNetworkDataset(Dataset):
     def __getitem__(self, index):
         img0_tuple, img1_tuple = self.__get_imgs()
 
-        def get_img(img_path):
-            if img_path not in img_cache:
-                img = Image.open(img_path)
-                img.convert("L")
-                img = ImageEnhance.Sharpness(img).enhance(10.0)
-                img_cache[img_path] = img
-            return img_cache[img_path]
-
-        img0 = get_img(img0_tuple[0])
-        img1 = get_img(img1_tuple[0])
-        # img0 = Image.open(img0_tuple[0])
-        # img1 = Image.open(img1_tuple[0])
-        # img0 = img0.convert("L")
-        # img1 = img1.convert("L")
+        img0 = Image.open(img0_tuple[0])
+        img1 = Image.open(img1_tuple[0])
+        img0 = img0.convert("L")
+        img1 = img1.convert("L")
         # img0 = ImageEnhance.Sharpness(img0).enhance(10.0)
         # img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
 
         if self.transform is not None:
-            img0a = self.transform(img0)
-            img1a = self.transform(img1)
+            img0 = self.transform(img0)
+            img1 = self.transform(img1)
 
         # img0 = torch.as_tensor(np.reshape(img0, (3, image_size, image_size)), dtype=torch.float32)
         # img1 = torch.as_tensor(np.reshape(img1, (3, image_size, image_size)), dtype=torch.float32)
 
-        return img0a, img1a, torch.from_numpy(np.array([int(img1_tuple[1] != img0_tuple[1])], dtype=np.float32))
+        return img0, img1, torch.from_numpy(np.array([int(img1_tuple[1] != img0_tuple[1])], dtype=np.float32))
 
     def __len__(self):
         return len(self.imageFolderDataset.imgs) * 8
