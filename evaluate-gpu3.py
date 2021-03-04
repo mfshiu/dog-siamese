@@ -32,10 +32,7 @@ class TestDataset(Dataset):
         self.left_image = left_image
         self.right_images = right_images
         self.transform = transforms.Compose([
-            # transforms.ToPILImage(),
-            transforms.CenterCrop(400),
-            transforms.Compose([transforms.Resize((image_size, image_size))]),
-            # transforms.RandomRotation(50),
+            transforms.Resize((image_size, image_size)),
             transforms.ToTensor(),
         ])
 
