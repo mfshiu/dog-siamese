@@ -8,7 +8,7 @@ import numpy as np
 import torch
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
-from PIL import Image
+from PIL import Image, ImageEnhance
 from torch import optim
 from torch.utils.data import DataLoader, Dataset
 
@@ -45,10 +45,9 @@ def show_plot(iteration,loss):
 
 
 class SiameseNetworkDataset(Dataset):
-    def __init__(self, imageFolderDataset, transform=None, should_invert=True):
+    def __init__(self, imageFolderDataset, transform=None):
         self.imageFolderDataset = imageFolderDataset
         self.transform = transform
-        self.should_invert = should_invert
 
     def __get_imgs(self):
         # we need to make sure approx 50% of images are in the same class
@@ -68,10 +67,8 @@ class SiameseNetworkDataset(Dataset):
         img1 = Image.open(img1_tuple[0])
         img0 = img0.convert("L")
         img1 = img1.convert("L")
-
-        if self.should_invert:
-            img0 = PIL.ImageOps.invert(img0)
-            img1 = PIL.ImageOps.invert(img1)
+        img0 = ImageEnhance.Sharpness(img0).enhance(10.0)
+        img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
 
         if self.transform is not None:
             img0 = self.transform(img0)
@@ -89,8 +86,8 @@ class SiameseNetworkDataset(Dataset):
 def train(model_path):
     print("Training dir: ", Config.train_dir)
     folder_dataset = dset.ImageFolder(root=Config.train_dir)
-    mean = [0.5]
-    std = [0.5]
+    # mean = [0.5]
+    # std = [0.5]
     siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
                                             transform=transforms.Compose([
                                                 transforms.Resize((image_size, image_size)),
@@ -100,12 +97,10 @@ def train(model_path):
                                                 # transforms.Grayscale(),
                                                 transforms.RandomHorizontalFlip(p=0.5),
                                                 transforms.RandomRotation(10),
-                                                transforms.RandomPerspective(
-                                                    distortion_scale=0.05, p=1),
+                                                # transforms.RandomPerspective(distortion_scale=0.05, p=1),
                                                 transforms.ToTensor(),
                                                 # transforms.Normalize(mean, std)
-                                            ])
-                                            , should_invert=False)
+                                            ]))
     # siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
     #                                         transform=transforms.Compose([
     #                                             transforms.CenterCrop(400),

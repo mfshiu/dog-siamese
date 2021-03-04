@@ -5,7 +5,7 @@ import numpy as np
 import torch
 import os
 import torchvision.transforms as transforms
-from PIL import Image
+from PIL import Image, ImageEnhance
 import PIL.ImageOps
 from model import SiameseNetwork
 import torchvision.datasets as dset
@@ -48,6 +48,8 @@ class TestDataset(Dataset):
         img1 = Image.open(right_img)
         img0 = img0.convert("L")
         img1 = img1.convert("L")
+        img0 = ImageEnhance.Sharpness(img0).enhance(10.0)
+        img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
 
         if self.should_invert:
             img0 = PIL.ImageOps.invert(img0)
