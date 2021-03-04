@@ -84,13 +84,13 @@ class SiameseNetworkDataset(Dataset):
         # img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
 
         if self.transform is not None:
-            img0 = self.transform(img0)
-            img1 = self.transform(img1)
+            img0a = self.transform(img0)
+            img1a = self.transform(img1)
 
         # img0 = torch.as_tensor(np.reshape(img0, (3, image_size, image_size)), dtype=torch.float32)
         # img1 = torch.as_tensor(np.reshape(img1, (3, image_size, image_size)), dtype=torch.float32)
 
-        return img0, img1, torch.from_numpy(np.array([int(img1_tuple[1] != img0_tuple[1])], dtype=np.float32))
+        return img0a, img1a, torch.from_numpy(np.array([int(img1_tuple[1] != img0_tuple[1])], dtype=np.float32))
 
     def __len__(self):
         return len(self.imageFolderDataset.imgs) * 8
