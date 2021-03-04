@@ -67,7 +67,7 @@ class SiameseNetworkDataset(Dataset):
         img0_tuple, img1_tuple = self.__get_imgs()
 
         def get_img(img_path):
-            if not img_cache[img_path]:
+            if img_path not in img_cache:
                 img = Image.open(img_path)
                 img.convert("L")
                 img = ImageEnhance.Sharpness(img).enhance(10.0)
