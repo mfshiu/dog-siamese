@@ -7,7 +7,7 @@ import os
 import torchvision.transforms as transforms
 from PIL import Image
 import PIL.ImageOps
-from model2 import SiameseNetwork
+from model import SiameseNetwork
 import torchvision.datasets as dset
 from config import Config
 import torch.nn as nn
