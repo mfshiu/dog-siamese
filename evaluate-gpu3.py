@@ -33,7 +33,7 @@ class TestDataset(Dataset):
         self.right_images = right_images
         self.transform = transforms.Compose([
             # transforms.CenterCrop(image_size * 2),
-            transforms.Resize(image_size),
+            transforms.Resize((image_size, image_size)),
             # transforms.Grayscale(),
             transforms.ToTensor(),
             # transforms.Normalize(mean, std)
