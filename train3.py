@@ -19,7 +19,7 @@ from model import SiameseNetwork, ContrastiveLoss
 global use_gpu
 use_gpu = False
 
-image_size = 128
+image_size = 100
 
 trained_dir = "trained"
 if not os.path.exists(trained_dir):
@@ -93,8 +93,8 @@ def train(model_path):
     # std = [0.5]
     siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
                                             transform=transforms.Compose([
-                                                transforms.CenterCrop(image_size),
-                                                # transforms.Resize((image_size, image_size)),
+                                                transforms.CenterCrop(image_size * 2),
+                                                transforms.Resize(image_size),
                                                 transforms.ColorJitter(
                                                     brightness=0.05, contrast=0.05,
                                                     saturation=0.05, hue=0.05),
