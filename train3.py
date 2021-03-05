@@ -19,7 +19,7 @@ from model import SiameseNetwork, ContrastiveLoss
 global use_gpu
 use_gpu = False
 
-image_size = 100
+image_size = 150
 
 trained_dir = "trained"
 if not os.path.exists(trained_dir):
