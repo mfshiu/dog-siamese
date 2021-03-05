@@ -5,7 +5,7 @@ import math
 
 
 class SiameseNetwork(nn.Module):
-    def __init__(self):
+    def __init__(self, image_size=100):
         super(SiameseNetwork, self).__init__()
         self.cnn1 = nn.Sequential(
             nn.ReflectionPad2d(1),
@@ -26,7 +26,7 @@ class SiameseNetwork(nn.Module):
         )
 
         self.fc1 = nn.Sequential(
-            nn.Linear(8 * 100 * 100, 500),
+            nn.Linear(8 * image_size * image_size, 500),
             nn.ReLU(inplace=True),
 
             nn.Linear(500, 500),

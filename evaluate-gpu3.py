@@ -118,7 +118,7 @@ if __name__ == '__main__':
     print("dog_count: %s" % (dog_count,))
     print("group_size: %s" % (group_size,))
 
-    siam_test = SiameseNetwork().cuda()
+    siam_test = SiameseNetwork(image_size).cuda()
     siam_test.load_state_dict(torch.load(model_path, map_location=torch.device('cuda:0')))
     siam_test.eval()
 

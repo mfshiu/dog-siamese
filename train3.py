@@ -121,9 +121,9 @@ def train(model_path):
 
     global use_gpu
     if use_gpu:
-        net = SiameseNetwork().cuda()
+        net = SiameseNetwork(image_size).cuda()
     else:
-        net = SiameseNetwork().cpu()
+        net = SiameseNetwork(image_size).cpu()
     criterion = ContrastiveLoss()
     optimizer = optim.Adam(net.parameters(), lr=0.0005)
 
