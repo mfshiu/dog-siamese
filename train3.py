@@ -137,7 +137,7 @@ def train(model_path):
                                                 transforms.ToTensor(),
                                                 # transforms.RandomErasing(p=0.95, scale=(0.01, 0.05),
                                                 #                          ratio=(0.3, 3.3)),
-                                                transforms.Normalize([0.5], [0.5])
+                                                # transforms.Normalize([0.5], [0.5])
                                             ]))
 
     train_dataloader = DataLoader(siamese_dataset,

@@ -35,7 +35,7 @@ class TestDataset(Dataset):
             transforms.Resize((image_size, image_size)),
             # transforms.Grayscale(),
             transforms.ToTensor(),
-            transforms.Normalize([0.5], [0.5])
+            # transforms.Normalize([0.5], [0.5])
         ])
 
     def __getitem__(self, idx):
