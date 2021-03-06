@@ -32,7 +32,7 @@ class TestDataset(Dataset):
         self.left_image = left_image
         self.right_images = right_images
         self.transform = transforms.Compose([
-            transforms.Resize((image_size*1.5, image_size*1.5)),
+            transforms.Resize((int(image_size*1.5), int(image_size*1.5))),
             transforms.CenterCrop(image_size),
             # transforms.Grayscale(),
             transforms.ToTensor(),
