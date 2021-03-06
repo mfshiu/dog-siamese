@@ -22,7 +22,6 @@ class SiameseNetwork(nn.Module):
             nn.Conv2d(8, 8, kernel_size=3),
             nn.ReLU(inplace=True),
             nn.BatchNorm2d(8),
-
         )
 
         self.fc1 = nn.Sequential(
