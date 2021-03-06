@@ -7,33 +7,35 @@ import math
 class SiameseNetwork(nn.Module):
     def __init__(self, image_size=100):
         super(SiameseNetwork, self).__init__()
+        dropout_rate = 0.2
+
         self.cnn1 = nn.Sequential(
             nn.ReflectionPad2d(1),
             nn.Conv2d(1, 4, kernel_size=3),
-            nn.Dropout(0.1),
+            nn.Dropout(dropout_rate),
             nn.ReLU(inplace=True),
             nn.BatchNorm2d(4),
 
             nn.ReflectionPad2d(1),
             nn.Conv2d(4, 8, kernel_size=3),
-            nn.Dropout(0.1),
+            nn.Dropout(dropout_rate),
             nn.ReLU(inplace=True),
             nn.BatchNorm2d(8),
 
             nn.ReflectionPad2d(1),
             nn.Conv2d(8, 8, kernel_size=3),
-            nn.Dropout(0.1),
+            nn.Dropout(dropout_rate),
             nn.ReLU(inplace=True),
             nn.BatchNorm2d(8),
         )
 
         self.fc1 = nn.Sequential(
             nn.Linear(8 * image_size * image_size, 500),
-            nn.Dropout(0.1),
+            nn.Dropout(dropout_rate),
             nn.ReLU(inplace=True),
 
             nn.Linear(500, 500),
-            nn.Dropout(0.1),
+            nn.Dropout(dropout_rate),
             nn.ReLU(inplace=True),
 
             nn.Linear(500, 5))
