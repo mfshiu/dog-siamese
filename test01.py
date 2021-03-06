@@ -12,9 +12,14 @@ img1 = Image.open(img1_tuple[0])
 img0 = img0.convert("L")
 img1 = img1.convert("L")
 
-size = (100, 100)
-img0.thumbnail(size)
-img1.thumbnail(size)
+w = 120
+img0.thumbnail((w, w))
+img1.thumbnail((w, w))
+
+d = w - 100
+crop_size = (d, d, w-d, w-d)
+img0 = img0.crop(crop_size)
+img1 = img1.crop(crop_size)
 
 img0.save("/Users/xumingfang/Documents/Temp/060-01a.png")
 img1.save("/Users/xumingfang/Documents/Temp/060-02a.png")
