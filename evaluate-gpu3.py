@@ -47,6 +47,8 @@ class TestDataset(Dataset):
         img1 = Image.open(right_img)
         img0 = img0.convert("L")
         img1 = img1.convert("L")
+        img0 = PIL.ImageOps.equalize(img0)
+        img1 = PIL.ImageOps.equalize(img1)
         # img0 = ImageEnhance.Sharpness(img0).enhance(10.0)
         # img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
 
