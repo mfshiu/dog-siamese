@@ -134,7 +134,8 @@ def train(model_path):
                                                 # transforms.RandomRotation(10),
                                                 # transforms.RandomPerspective(distortion_scale=0.05, p=1),
                                                 transforms.ToTensor(),
-                                                transforms.RandomErasing(p=0.95, scale=(0.01, 0.05), ratio=(0.3, 3.3)),
+                                                # transforms.RandomErasing(p=0.95, scale=(0.01, 0.05),
+                                                #                          ratio=(0.3, 3.3)),
                                                 # transforms.Normalize(mean, std)
                                             ]))
 
