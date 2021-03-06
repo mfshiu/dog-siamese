@@ -37,7 +37,7 @@ class TestDataset(Dataset):
             # transforms.Grayscale(),
             transforms.ToTensor(),
             # transforms.Normalize(mean, std)
-        ])
+        ]) #
 
     def __getitem__(self, idx):
         left_img = self.left_image
