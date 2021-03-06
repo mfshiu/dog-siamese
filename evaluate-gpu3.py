@@ -27,8 +27,6 @@ use_gpu = False
 
 class TestDataset(Dataset):
     def __init__(self, left_image, right_images):
-        # mean = [0.5]
-        # std = [0.5]
         self.left_image = left_image
         self.right_images = right_images
         self.transform = transforms.Compose([
@@ -37,7 +35,7 @@ class TestDataset(Dataset):
             transforms.Resize((image_size, image_size)),
             # transforms.Grayscale(),
             transforms.ToTensor(),
-            # transforms.Normalize(mean, std)
+            transforms.Normalize([0.5], [0.5])
         ])
 
     def __getitem__(self, idx):

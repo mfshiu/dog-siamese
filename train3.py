@@ -119,8 +119,6 @@ class SiameseNetworkDataset(Dataset):
 def train(model_path):
     print("Training dir: ", Config.train_dir)
     folder_dataset = dset.ImageFolder(root=Config.train_dir)
-    # mean = [0.5]
-    # std = [0.5]
     siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
                                             transform=transforms.Compose([
                                                 # transforms.Resize((int(image_size*1.2), int(image_size*1.2))),
@@ -139,7 +137,7 @@ def train(model_path):
                                                 transforms.ToTensor(),
                                                 # transforms.RandomErasing(p=0.95, scale=(0.01, 0.05),
                                                 #                          ratio=(0.3, 3.3)),
-                                                # transforms.Normalize(mean, std)
+                                                transforms.Normalize([0.5], [0.5])
                                             ]))
 
     train_dataloader = DataLoader(siamese_dataset,
