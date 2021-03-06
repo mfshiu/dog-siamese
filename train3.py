@@ -74,9 +74,9 @@ class SiameseNetworkDataset(Dataset):
         else:
             # choose the different dogs
             class_1 = self.imageFolderDataset.classes[idx]
-            class_2 = random.sample(self.imageFolderDataset.classes, 1)[0]
+            class_2 = random.choice(self.imageFolderDataset.classes)
             while class_1 == class_2:
-                class_2 = random.sample(self.imageFolderDataset.classes, 1)
+                class_2 = random.choice(self.imageFolderDataset.classes)
             img0_tuple = random.choice([x for x in self.imageFolderDataset.imgs if class_1 in x[0]])
             img1_tuple = random.choice([x for x in self.imageFolderDataset.imgs if class_2 in x[0]])
         return img0_tuple, img1_tuple
