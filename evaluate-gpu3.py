@@ -42,7 +42,7 @@ class TestDataset(Dataset):
     def __getitem__(self, idx):
         left_img = self.left_image
         right_img = self.right_images[idx]
-        print("TestDataset[%d] %s - %s" % (idx, left_img, right_img))
+        # print("TestDataset[%d] %s - %s" % (idx, left_img, right_img))
 
         img0 = Image.open(left_img)
         img1 = Image.open(right_img)

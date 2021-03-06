@@ -71,8 +71,8 @@ class SiameseNetworkDataset(Dataset):
         img1 = Image.open(img1_tuple[0])
         img0 = img0.convert("L")
         img1 = img1.convert("L")
-        # img0 = PIL.ImageOps.equalize(img0)
-        # img1 = PIL.ImageOps.equalize(img1)
+        img0 = PIL.ImageOps.equalize(img0)
+        img1 = PIL.ImageOps.equalize(img1)
         # img0 = cv2.equalizeHist(img0)
         # img1 = cv2.equalizeHist(img1)
         # img0 = ImageEnhance.Sharpness(img0).enhance(10.0)
@@ -100,9 +100,9 @@ def train(model_path):
                                             transform=transforms.Compose([
                                                 # transforms.CenterCrop(image_size * 2),
                                                 transforms.Resize((image_size, image_size)),
-                                                transforms.ColorJitter(
-                                                    brightness=0.05, contrast=0.05,
-                                                    saturation=0.05, hue=0.05),
+                                                # transforms.ColorJitter(
+                                                #     brightness=0.05, contrast=0.05,
+                                                #     saturation=0.05, hue=0.05),
                                                 # transforms.Grayscale(),
                                                 transforms.RandomHorizontalFlip(p=0.5),
                                                 transforms.RandomRotation(10),
