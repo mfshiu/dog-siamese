@@ -100,10 +100,12 @@ class SiameseNetworkDataset(Dataset):
                 img0 = self.transform(img0)
             except:
                 print("transform error: %s" % (img0_tuple[0]))
+                raise
             try:
                 img1 = self.transform(img1)
             except:
                 print("transform error: %s" % (img1_tuple[0]))
+                raise
 
         # img0 = torch.as_tensor(np.reshape(img0, (3, image_size, image_size)), dtype=torch.float32)
         # img1 = torch.as_tensor(np.reshape(img1, (3, image_size, image_size)), dtype=torch.float32)
