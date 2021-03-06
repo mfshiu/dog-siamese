@@ -123,16 +123,17 @@ def train(model_path):
     # std = [0.5]
     siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
                                             transform=transforms.Compose([
-                                                transforms.Resize((int(image_size*1.2), int(image_size*1.2))),
-                                                transforms.CenterCrop(image_size),
+                                                # transforms.Resize((int(image_size*1.2), int(image_size*1.2))),
+                                                # transforms.CenterCrop(image_size),
+                                                transforms.Resize((image_size, image_size)),
                                                 # transforms.RandomCrop(image_size),
                                                 # transforms.ColorJitter(
                                                 #     brightness=0.05, contrast=0.05,
                                                 #     saturation=0.05, hue=0.05),
                                                 # transforms.Grayscale(),
-                                                # transforms.RandomHorizontalFlip(p=0.5),
-                                                # transforms.RandomAffine(degrees=10, translate=(0, 0.05),
-                                                #                         scale=(0.95, 1.05), shear=(5, 5)),
+                                                transforms.RandomHorizontalFlip(p=0.5),
+                                                transforms.RandomAffine(degrees=10, translate=(0, 0.05),
+                                                                        scale=(0.95, 1.05), shear=(5, 5)),
                                                 # transforms.RandomRotation(10),
                                                 # transforms.RandomPerspective(distortion_scale=0.05, p=1),
                                                 transforms.ToTensor(),
