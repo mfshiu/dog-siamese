@@ -42,7 +42,7 @@ class SiameseNetwork(nn.Module):
             nn.Dropout(0.1),
             nn.ReLU(inplace=True),
 
-            nn.Linear(1000, 10))
+            nn.Linear(1000, 5))
 
     def sigmoid(self, x):
         return 1 / (1 + math.exp(-x))
