@@ -79,10 +79,14 @@ class SiameseNetworkDataset(Dataset):
         # img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
 
         if self.transform is not None:
-            print("transform: %s" % (img0_tuple[0]))
-            img0 = self.transform(img0)
-            print("transform: %s" % (img1_tuple[0]))
-            img1 = self.transform(img1)
+            try:
+                print("transform: %s" % (img0_tuple[0]))
+            except:
+                img0 = self.transform(img0)
+            try:
+                print("transform: %s" % (img1_tuple[0]))
+            except:
+                img1 = self.transform(img1)
 
         # img0 = torch.as_tensor(np.reshape(img0, (3, image_size, image_size)), dtype=torch.float32)
         # img1 = torch.as_tensor(np.reshape(img1, (3, image_size, image_size)), dtype=torch.float32)
