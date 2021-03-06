@@ -7,7 +7,7 @@ import math
 class SiameseNetwork(nn.Module):
     def __init__(self, image_size=100):
         super(SiameseNetwork, self).__init__()
-        dropout_rate = 0.3
+        dropout_rate = 0.2
 
         self.cnn1 = nn.Sequential(
             nn.ReflectionPad2d(1),
