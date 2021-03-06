@@ -64,8 +64,24 @@ class SiameseNetworkDataset(Dataset):
             img1_tuple = random.choice([x for x in self.imageFolderDataset.imgs if class_2 in x[0]])
         return img0_tuple, img1_tuple
 
+    def __get_img2(self, idx):
+        # we need to make sure approx 50% of images are in the same class
+        if random.randint(0, 1):
+            # choose the same dogs
+            the_class = self.imageFolderDataset.classes[idx]
+            img0_tuple, img1_tuple = random.sample([x for x in self.imageFolderDataset.imgs if the_class in x[0]], 2)
+        else:
+            # choose the different dogs
+            class_1 = self.imageFolderDataset.classes[idx]
+            class_2 = random.sample(self.imageFolderDataset.classes, 1)
+            while class_1 != class_2:
+                class_2 = random.sample(self.imageFolderDataset.classes, 1)
+            img0_tuple = random.choice([x for x in self.imageFolderDataset.imgs if class_1 in x[0]])
+            img1_tuple = random.choice([x for x in self.imageFolderDataset.imgs if class_2 in x[0]])
+        return img0_tuple, img1_tuple
+
     def __getitem__(self, index):
-        img0_tuple, img1_tuple = self.__get_imgs()
+        img0_tuple, img1_tuple = self.__get_imgs2(index)
 
         img0 = Image.open(img0_tuple[0])
         img1 = Image.open(img1_tuple[0])
