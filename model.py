@@ -21,28 +21,22 @@ class SiameseNetwork(nn.Module):
             nn.BatchNorm2d(8),
 
             nn.ReflectionPad2d(1),
-            nn.Conv2d(8, 16, kernel_size=3),
+            nn.Conv2d(8, 8, kernel_size=3),
             nn.Dropout(0.1),
             nn.ReLU(inplace=True),
-            nn.BatchNorm2d(16),
-
-            nn.ReflectionPad2d(1),
-            nn.Conv2d(16, 16, kernel_size=3),
-            nn.Dropout(0.1),
-            nn.ReLU(inplace=True),
-            nn.BatchNorm2d(16),
+            nn.BatchNorm2d(8),
         )
 
         self.fc1 = nn.Sequential(
-            nn.Linear(16 * image_size * image_size, 1000),
+            nn.Linear(8 * image_size * image_size, 500),
             nn.Dropout(0.1),
             nn.ReLU(inplace=True),
 
-            nn.Linear(1000, 1000),
+            nn.Linear(500, 500),
             nn.Dropout(0.1),
             nn.ReLU(inplace=True),
 
-            nn.Linear(1000, 5))
+            nn.Linear(500, 5))
 
     def sigmoid(self, x):
         return 1 / (1 + math.exp(-x))
