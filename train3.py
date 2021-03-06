@@ -11,6 +11,7 @@ import torchvision.transforms as transforms
 from PIL import Image, ImageEnhance
 from torch import optim
 from torch.utils.data import DataLoader, Dataset
+import cv2
 
 from config import Config
 from model import SiameseNetwork, ContrastiveLoss
@@ -19,7 +20,7 @@ from model import SiameseNetwork, ContrastiveLoss
 global use_gpu
 use_gpu = False
 
-image_size = 150
+image_size = 100
 
 trained_dir = "trained"
 if not os.path.exists(trained_dir):
@@ -70,6 +71,8 @@ class SiameseNetworkDataset(Dataset):
         img1 = Image.open(img1_tuple[0])
         img0 = img0.convert("L")
         img1 = img1.convert("L")
+        img0 = cv2.equalizeHist(img0)
+        img1 = cv2.equalizeHist(img1)
         # img0 = ImageEnhance.Sharpness(img0).enhance(10.0)
         # img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
 
