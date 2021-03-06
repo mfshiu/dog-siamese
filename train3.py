@@ -111,7 +111,7 @@ class SiameseNetworkDataset(Dataset):
         return img0, img1, torch.from_numpy(np.array([int(img1_tuple[1] != img0_tuple[1])], dtype=np.float32))
 
     def __len__(self):
-        return len(self.imageFolderDataset.imgs) * 16
+        return len(self.imageFolderDataset.imgs) * 10
 
 
 def train(model_path):
@@ -136,14 +136,6 @@ def train(model_path):
                                                 transforms.ToTensor(),
                                                 # transforms.Normalize(mean, std)
                                             ]))
-    # siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
-    #                                         transform=transforms.Compose([
-    #                                             transforms.CenterCrop(400),
-    #                                             transforms.Compose([transforms.Resize((image_size, image_size))]),
-    #                                             transforms.RandomRotation(50),
-    #                                             transforms.ToTensor(),
-    #                                         ])
-    #                                         , should_invert=False)
 
     train_dataloader = DataLoader(siamese_dataset,
                                   shuffle=True,
