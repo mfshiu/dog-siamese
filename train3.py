@@ -67,7 +67,7 @@ class SiameseNetworkDataset(Dataset):
     def __get_imgs2(self, idx):
         idx %= len(self.imageFolderDataset.classes)
         # we need to make sure approx 50% of images are in the same class
-        if random.randint(1, 12) <= 4:
+        if random.randint(1, 12) <= 6:
             # choose the same dogs
             the_class = self.imageFolderDataset.classes[idx]
             img0_tuple, img1_tuple = random.sample([x for x in self.imageFolderDataset.imgs if the_class in x[0]], 2)
