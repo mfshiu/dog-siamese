@@ -26,11 +26,11 @@ class SiameseNetwork(nn.Module):
             nn.ReLU(inplace=True),
             nn.BatchNorm2d(16),
 
-            nn.ReflectionPad2d(1),
-            nn.Conv2d(16, 16, kernel_size=3),
-            nn.Dropout(0.1),
-            nn.ReLU(inplace=True),
-            nn.BatchNorm2d(16),
+            # nn.ReflectionPad2d(1),
+            # nn.Conv2d(16, 16, kernel_size=3),
+            # nn.Dropout(0.1),
+            # nn.ReLU(inplace=True),
+            # nn.BatchNorm2d(16),
         )
 
         self.fc1 = nn.Sequential(
