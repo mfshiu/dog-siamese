@@ -96,16 +96,8 @@ class SiameseNetworkDataset(Dataset):
         # img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
 
         if self.transform is not None:
-            try:
-                img0 = self.transform(img0)
-            except:
-                print("transform error: %s" % (img0_tuple[0]))
-                raise
-            try:
-                img1 = self.transform(img1)
-            except:
-                print("transform error: %s" % (img1_tuple[0]))
-                raise
+            img0 = self.transform(img0)
+            img1 = self.transform(img1)
 
         # img0 = torch.as_tensor(np.reshape(img0, (3, image_size, image_size)), dtype=torch.float32)
         # img1 = torch.as_tensor(np.reshape(img1, (3, image_size, image_size)), dtype=torch.float32)
@@ -113,7 +105,7 @@ class SiameseNetworkDataset(Dataset):
         return img0, img1, torch.from_numpy(np.array([int(img1_tuple[1] != img0_tuple[1])], dtype=np.float32))
 
     def __len__(self):
-        return len(self.imageFolderDataset.imgs) * 10
+        return len(self.imageFolderDataset.imgs) * 1
 
 
 def train(model_path):
@@ -129,9 +121,9 @@ def train(model_path):
                                                 #     brightness=0.05, contrast=0.05,
                                                 #     saturation=0.05, hue=0.05),
                                                 # transforms.Grayscale(),
-                                                transforms.RandomHorizontalFlip(p=0.5),
-                                                transforms.RandomAffine(degrees=10, translate=(0, 0.05),
-                                                                        scale=(0.95, 1.05), shear=(5, 5)),
+                                                # transforms.RandomHorizontalFlip(p=0.5),
+                                                # transforms.RandomAffine(degrees=10, translate=(0, 0.05),
+                                                #                         scale=(0.95, 1.05), shear=(5, 5)),
                                                 # transforms.RandomRotation(10),
                                                 # transforms.RandomPerspective(distortion_scale=0.05, p=1),
                                                 transforms.ToTensor(),
