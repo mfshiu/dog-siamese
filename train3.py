@@ -133,8 +133,8 @@ def train(model_path):
                                                                         scale=(0.95, 1.05), shear=(5, 5), fillcolor=0),
                                                 # transforms.RandomRotation(10),
                                                 # transforms.RandomPerspective(distortion_scale=0.05, p=1),
-                                                transforms.RandomErasing(p=1, scale=(0.01, 0.05), ratio=(0.3, 3.3),
-                                                                         value=(254 / 255, 0, 0)),
+                                                # transforms.RandomErasing(p=1, scale=(0.01, 0.05), ratio=(0.3, 3.3),
+                                                #                          value=(254 / 255, 0, 0)),
                                                 transforms.ToTensor(),
                                                 # transforms.Normalize(mean, std)
                                             ]))
