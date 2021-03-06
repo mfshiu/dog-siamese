@@ -67,7 +67,7 @@ class SiameseNetworkDataset(Dataset):
     def __get_imgs2(self, idx):
         idx %= len(self.imageFolderDataset.classes)
         # we need to make sure approx 50% of images are in the same class
-        if random.randint(0, 2):
+        if random.randint(0, 1):
             # choose the same dogs
             the_class = self.imageFolderDataset.classes[idx]
             img0_tuple, img1_tuple = random.sample([x for x in self.imageFolderDataset.imgs if the_class in x[0]], 2)
@@ -129,8 +129,8 @@ def train(model_path):
                                                 #     saturation=0.05, hue=0.05),
                                                 # transforms.Grayscale(),
                                                 transforms.RandomHorizontalFlip(p=0.5),
-                                                transforms.RandomAffine(degrees=10, translate=(0, 0.05), scale=(0.95, 1.05),
-                                                                        shear=(5, 5), fillcolor=0),
+                                                transforms.RandomAffine(degrees=10, translate=(0, 0.05),
+                                                                        scale=(0.95, 1.05), shear=(5, 5), fillcolor=0),
                                                 # transforms.RandomRotation(10),
                                                 # transforms.RandomPerspective(distortion_scale=0.05, p=1),
                                                 transforms.ToTensor(),
