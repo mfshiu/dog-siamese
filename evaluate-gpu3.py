@@ -30,9 +30,9 @@ class TestDataset(Dataset):
         self.left_image = left_image
         self.right_images = right_images
         self.transform = transforms.Compose([
-            transforms.Resize((int(image_size*1.1), int(image_size*1.1))),
-            transforms.CenterCrop(image_size),
-            # transforms.Resize((image_size, image_size)),
+            # transforms.Resize((int(image_size*1.2), int(image_size*1.2))),
+            # transforms.CenterCrop(image_size),
+            transforms.Resize((image_size, image_size)),
             # transforms.Grayscale(),
             transforms.ToTensor(),
             # transforms.Normalize([0.5], [0.5])
@@ -107,7 +107,12 @@ def verify_dogs(test_model, left_dogs, right_dogs):
 import sys
 
 if __name__ == '__main__':
-    model_path = Config.Evaluate.model_path
+    if len(sys.argv) > 1:
+        model_path = sys.argv[1]
+    else:
+        model_path = Config.Evaluate.model_path
+    print('model_path：', model_path)
+
     inference_output_path = Config.Evaluate.inference_output_path
     eer_output_path = Config.Evaluate.eer_output_path
     dog_input_root = Config.Evaluate.test_dir

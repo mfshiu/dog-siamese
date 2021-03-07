@@ -113,9 +113,9 @@ def train(model_path):
     folder_dataset = dset.ImageFolder(root=Config.train_dir)
     siamese_dataset = SiameseNetworkDataset(imageFolderDataset=folder_dataset,
                                             transform=transforms.Compose([
-                                                transforms.Resize((int(image_size*1.1), int(image_size*1.1))),
-                                                transforms.CenterCrop(image_size),
-                                                # transforms.Resize((image_size, image_size)),
+                                                # transforms.Resize((int(image_size*1.2), int(image_size*1.2))),
+                                                # transforms.CenterCrop(image_size),
+                                                transforms.Resize((image_size, image_size)),
                                                 # transforms.RandomCrop(image_size),
                                                 # transforms.ColorJitter(
                                                 #     brightness=0.05, contrast=0.05,
