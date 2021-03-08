@@ -91,6 +91,7 @@ if __name__ == '__main__':
 
     if exam_dir:
         img_paths = []
+        sum_lines = []
         for path, subdirs, files in os.walk(exam_dir):
             for name in files:
                 img_paths.append(os.path.join(path, name))
@@ -98,9 +99,11 @@ if __name__ == '__main__':
         for i, img in enumerate(img_paths):
             find_id, similarity = find_dog(img)
             if find_id:
-                print("%s = %s (%s)" % (img_paths[i], find_id, similarity))
+                line = "%s = %s (%s)" % (img_paths[i], find_id, similarity)
             else:
-                print("%s = None" % (img_paths[i],))
+                line = "%s = None" % (img_paths[i],)
+            sum_lines.append("%s\n" % (line,))
+            print(line)
     elif dog_id:
         is_same = exam_dog(dog_id, dog_img)[0]
         if is_same:
@@ -115,6 +118,8 @@ if __name__ == '__main__':
             print("Cannot find the dog.")
 
     with open("exam.log", "w") as fp:
+        fp.writelines(sum_lines)
+        fp.writelines("\nDetails ==================\n")
         fp.writelines(log_lines)
 
 
