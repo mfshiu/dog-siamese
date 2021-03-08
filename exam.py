@@ -47,7 +47,8 @@ def find_dog(img_path):
         similarities = exam_dog(dog_id, img_path)[1]
         similarities.sort()
         # avg = sum(similarities) / len(similarities)
-        avg = sum(similarities[Config.exam_count//2:]) / (len(similarities)-Config.exam_count//2)
+        # avg = sum(similarities[Config.exam_count//2:]) / (len(similarities)-Config.exam_count//2)
+        avg = sum(x**2 for x in similarities)**0.5
         # avg = max(similarities[])
         log_lines.append("%s->%s(avg:%s,%s)\n" % (img_path, dog_id, avg, similarities))
         if avg > threshold and max_avg < avg:
