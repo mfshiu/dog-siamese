@@ -39,6 +39,7 @@ def exam_dog(dog_id, img_path):
 def find_dog(img_path):
     walked = [x for x in os.walk(register_dir)][0]
     dog_ids = walked[1]
+    dog_ids.sort()
     max_avg = 0
     hit_dog = None
 
