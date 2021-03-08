@@ -87,17 +87,17 @@ if __name__ == '__main__':
     siam_model.eval()
 
     if exam_dir:
-        img_paths, names = [], []
+        img_paths = []
         for path, subdirs, files in os.walk(exam_dir):
             for name in files:
                 img_paths.append(os.path.join(path, name))
-                names.append(name)
+        img_paths.sort()
         for i, img in enumerate(img_paths):
             find_id, similarity = find_dog(img)
             if find_id:
-                print("%s = %s (%s)" % (names[i], find_id, similarity))
+                print("%s = %s (%s)" % (img_paths[i], find_id, similarity))
             else:
-                print("%s = None" % (names[i],))
+                print("%s = None" % (img_paths[i],))
     elif dog_id:
         is_same = exam_dog(dog_id, dog_img)[0]
         if is_same:
