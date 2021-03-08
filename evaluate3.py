@@ -88,7 +88,7 @@ def verify_dogs(test_model, left_dogs, right_dogs):
         inf = []
         test_set = TestDataset(left_dog, right_dogs)
         test_dataloader = DataLoader(test_set, shuffle=False, batch_size=1, num_workers=0)
-        for i, data in enumerate(test_dataloader):
+        for data in test_dataloader:
             img0, img1 = data
             if use_gpu:
                 similarity = test_model.evaluate(img0.cuda(), img1.cuda())
