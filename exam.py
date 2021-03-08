@@ -11,6 +11,7 @@ use_gpu = False
 register_dir = "./data/ct0202a/"
 threshold = 65
 siam_model = None
+log_lines = []
 
 
 def exam_dog(dog_id, img_path):
@@ -44,7 +45,7 @@ def find_dog(img_path):
     for dog_id in dog_ids:
         similarities = exam_dog(dog_id, img_path)[1]
         avg = sum(similarities) / len(similarities)
-        print("%s->%s(avg:%s,%s)"%(img_path, dog_id, avg, similarities))
+        log_lines.append("%s->%s(avg:%s,%s)" % (img_path, dog_id, avg, similarities))
         # avg = max(similarities)
         if avg > threshold and max_avg < avg:
             max_avg = avg
@@ -111,3 +112,9 @@ if __name__ == '__main__':
             print("The dog is %s, similarity is %s" % (find_id, similarity))
         else:
             print("Cannot find the dog.")
+
+    with open("exam.log", "w") as fp:
+        fp.writelines(log_lines)
+
+
+
