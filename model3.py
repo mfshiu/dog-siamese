@@ -40,7 +40,7 @@ class SiameseNetwork(nn.Module):
             # nn.ReLU(inplace=True),
             # nn.BatchNorm2d(16),
         )
-
+##
         self.fc1 = nn.Sequential(
             nn.Linear(8 * image_size * image_size, 1000),
             nn.Dropout(dropout_rate),
