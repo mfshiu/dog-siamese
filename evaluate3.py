@@ -108,7 +108,7 @@ if __name__ == '__main__':
         if a.lower() == 'gpu':
             use_gpu = True
         else:
-            model_path = a
+            model_path = a.split("=")[1]
     print('use gpu：', use_gpu)
     print('model path：', model_path)
 
