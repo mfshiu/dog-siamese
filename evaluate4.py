@@ -14,7 +14,6 @@ if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
 
-# threshold = 0.76
 model_path = "./trained/DogSiamese.pkl"
 use_gpu = False
 
@@ -24,39 +23,34 @@ class TestDataset(Dataset):
         self.left_image = left_image
         self.right_images = right_images
         self.transform = transforms.Compose([
-            # transforms.Resize((int(image_size*1.2), int(image_size*1.2))),
-            # transforms.CenterCrop(image_size),
-            transforms.Resize((image_size, image_size)),
-            # transforms.Grayscale(),
             transforms.ToTensor(),
-            # transforms.Normalize([0.5], [0.5])
         ])
+
+    def __get_one_of_ten(self, img, index):
+        return transforms.Compose([
+            transforms.TenCrop(image_size)
+        ])(img)[index]
 
     def __getitem__(self, idx):
         left_img = self.left_image
-        right_img = self.right_images[idx]
-        # print("TestDataset[%d] %s - %s" % (idx, left_img, right_img))
+        right_img = self.right_images[idx // 10]
+        print("\rTestDataset[%d] %s - %s" % (idx, left_img, right_img), end='')
 
-        img0 = Image.open(left_img)
-        img1 = Image.open(right_img)
-        img0 = img0.convert("L")
-        img1 = img1.convert("L")
+        img0 = Image.open(left_img).resize((image_size * 3, image_size * 3))
+        img1 = Image.open(right_img).resize((image_size * 3, image_size * 3))
+        img0 = self.__get_one_of_ten(img0, idx % 10).convert("L")
+        img1 = self.__get_one_of_ten(img1, idx % 10).convert("L")
         img0 = PIL.ImageOps.equalize(img0)
         img1 = PIL.ImageOps.equalize(img1)
-        # img0 = ImageEnhance.Sharpness(img0).enhance(10.0)
-        # img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
 
         if self.transform is not None:
             img0 = self.transform(img0)
             img1 = self.transform(img1)
 
-        # img0 = torch.as_tensor(np.reshape(img0, (3, image_size, image_size)), dtype=torch.float32)
-        # img1 = torch.as_tensor(np.reshape(img1, (3, image_size, image_size)), dtype=torch.float32)
-
         return img0, img1
 
     def __len__(self):
-        return len(self.right_images)
+        return len(self.right_images) * 10
 
 
 def calculate_far_frr(inferences, group_size, threshold):
@@ -88,14 +82,19 @@ def verify_dogs(test_model, left_dogs, right_dogs):
         inf = []
         test_set = TestDataset(left_dog, right_dogs)
         test_dataloader = DataLoader(test_set, shuffle=False, batch_size=1, num_workers=0)
+        similarity = 0
         for i, data in enumerate(test_dataloader):
             img0, img1 = data
             if use_gpu:
-                similarity = test_model.evaluate(img0.cuda(), img1.cuda())
+                similarity += test_model.evaluate(img0.cuda(), img1.cuda())
             else:
-                similarity = test_model.evaluate(img0.cpu(), img1.cpu())
-            inf.append(similarity)
-            print("\r%s | %s = %f" % (left_dog, right_dogs[i], similarity), end="")
+                similarity += test_model.evaluate(img0.cpu(), img1.cpu())
+            if (i + 1) % 10 == 0:
+                similarity /= 10
+                inf.append(similarity)
+                print("\r%s | %s = %f" % (left_dog, right_dogs[i//10], similarity), end="")
+                similarity = 0
+
         print()
         inferences.append(inf)
 
