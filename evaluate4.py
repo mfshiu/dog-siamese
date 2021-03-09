@@ -51,7 +51,7 @@ class TestDataset(Dataset):
         return img0, img1
 
     def __len__(self):
-        return len(self.right_images) * 100
+        return len(self.right_images) * 10
 
 
 def calculate_far_frr(inferences, group_size, threshold):
