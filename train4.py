@@ -134,7 +134,7 @@ def train(model_path):
     if model_path:
         torch.save(net.state_dict(), model_path)
 
-    show_plot(counter,loss_history)
+    # show_plot(counter,loss_history)
 
 
 if __name__ == '__main__':
