@@ -14,13 +14,13 @@ from torch.utils.data import DataLoader, Dataset
 import cv2
 
 from config import Config
-from model import SiameseNetwork, ContrastiveLoss
+from model3 import SiameseNetwork, ContrastiveLoss
 # from model2 import SiameseNetwork, ContrastiveLoss
 
 global use_gpu
 use_gpu = False
 
-image_size = 100
+image_size = 200
 
 trained_dir = "trained"
 if not os.path.exists(trained_dir):
@@ -101,7 +101,6 @@ class SiameseNetworkDataset(Dataset):
 
         # img0 = torch.as_tensor(np.reshape(img0, (3, image_size, image_size)), dtype=torch.float32)
         # img1 = torch.as_tensor(np.reshape(img1, (3, image_size, image_size)), dtype=torch.float32)
-
         return img0, img1, torch.from_numpy(np.array([int(img1_tuple[1] != img0_tuple[1])], dtype=np.float32))
 
     def __len__(self):

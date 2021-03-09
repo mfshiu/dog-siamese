@@ -3,7 +3,7 @@ import os
 import torchvision.transforms as transforms
 from PIL import Image, ImageEnhance
 import PIL.ImageOps
-from model import SiameseNetwork
+from model3 import SiameseNetwork
 from config import Config
 from torch.utils.data import DataLoader, Dataset
 import sys

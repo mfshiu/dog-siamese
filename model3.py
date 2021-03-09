@@ -5,45 +5,46 @@ import math
 
 
 class SiameseNetwork(nn.Module):
-    def __init__(self):
+    def __init__(self, image_size=100):
         super(SiameseNetwork, self).__init__()
-        self.cnn = nn.Sequential(
-            nn.Conv2d(3, 64, 3, 1, 1),  # [64, 128, 128]
-            nn.BatchNorm2d(64),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2, 0),      # [64, 64, 64]
+        dropout_rate = 0.2
 
-            nn.Conv2d(64, 128, 3, 1, 1), # [128, 64, 64]
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2, 0),      # [128, 32, 32]
+        self.cnn1 = nn.Sequential(
+            nn.ReflectionPad2d(1),
+            nn.Conv2d(1, 4, kernel_size=3),
+            nn.Dropout(dropout_rate),
+            nn.ReLU(inplace=True),
+            nn.BatchNorm2d(4),
 
-            nn.Conv2d(128, 256, 3, 1, 1), # [256, 32, 32]
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2, 0),      # [256, 16, 16]
+            nn.ReflectionPad2d(1),
+            nn.Conv2d(4, 8, kernel_size=3),
+            nn.Dropout(dropout_rate),
+            nn.ReLU(inplace=True),
+            nn.BatchNorm2d(8),
 
-            nn.Conv2d(256, 512, 3, 1, 1), # [512, 16, 16]
-            nn.BatchNorm2d(512),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2, 0),       # [512, 8, 8]
-            nn.Conv2d(512, 512, 3, 1, 1), # [512, 16, 16]
-            nn.BatchNorm2d(512),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2, 0),       # [512, 8, 8]
-            nn.Conv2d(512, 512, 3, 1, 1), # [512, 16, 16]
-            nn.BatchNorm2d(512),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2, 0),       # [512, 8, 8]
+            nn.ReflectionPad2d(1),
+            nn.Conv2d(8, 16, kernel_size=3),
+            nn.Dropout(dropout_rate),
+            nn.ReLU(inplace=True),
+            nn.BatchNorm2d(16),
+
+            nn.ReflectionPad2d(1),
+            nn.Conv2d(16, 16, kernel_size=3),
+            nn.Dropout(dropout_rate),
+            nn.ReLU(inplace=True),
+            nn.BatchNorm2d(16),
         )
 
-        self.fc = nn.Sequential(
-            nn.Linear(512*2*2, 128),
-            nn.ReLU(),
-            nn.Linear(128, 64),
-            nn.ReLU(),
-            nn.Linear(64, 2)
-        )
+        self.fc1 = nn.Sequential(
+            nn.Linear(8 * image_size * image_size, 2000),
+            nn.Dropout(dropout_rate),
+            nn.ReLU(inplace=True),
+
+            nn.Linear(2000, 500),
+            nn.Dropout(dropout_rate),
+            nn.ReLU(inplace=True),
+
+            nn.Linear(500, 5))
 
     def sigmoid(self, x):
         return 1 / (1 + math.exp(-x))
@@ -56,9 +57,9 @@ class SiameseNetwork(nn.Module):
         return similarity
 
     def forward_once(self, x):
-        output = self.cnn(x)
+        output = self.cnn1(x)
         output = output.view(output.size()[0], -1)
-        output = self.fc(output)
+        output = self.fc1(output)
         return output
 
     def forward(self, input1, input2):
