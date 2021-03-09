@@ -40,7 +40,7 @@ class SiameseNetwork(nn.Module):
             nn.Dropout(dropout_rate),
             nn.ReLU(inplace=True),
 
-            nn.Linear(000, 400),
+            nn.Linear(800, 400),
             nn.Dropout(dropout_rate),
             nn.ReLU(inplace=True),
 
