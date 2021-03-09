@@ -38,8 +38,9 @@ class TestDataset(Dataset):
 
         img0 = Image.open(left_img).resize((image_size * 3, image_size * 3))
         img1 = Image.open(right_img).resize((image_size * 3, image_size * 3))
-        img0 = self.__get_one_of_ten(img0, idx % 10).convert("L")
-        img1 = self.__get_one_of_ten(img1, idx % 10).convert("L")
+        piece_index = idx % 10
+        img0 = self.__get_one_of_ten(img0, piece_index).convert("L")
+        img1 = self.__get_one_of_ten(img1, piece_index).convert("L")
         img0 = PIL.ImageOps.equalize(img0)
         img1 = PIL.ImageOps.equalize(img1)
 

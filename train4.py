@@ -61,12 +61,12 @@ class SiameseNetworkDataset(Dataset):
         return img0_tuple, img1_tuple
 
     def __get_one_of_ten(self, img, index):
-        return random.choice(transforms.Compose([
-            transforms.TenCrop(image_size)
-        ])(img))
-        # return transforms.Compose([
+        # return random.choice(transforms.Compose([
         #     transforms.TenCrop(image_size)
-        # ])(img)[index]
+        # ])(img))
+        return transforms.Compose([
+            transforms.TenCrop(image_size)
+        ])(img)[index]
 
     def __getitem__(self, index):
         print("\rDataset get image index %s" % (index,), end='')
@@ -74,8 +74,9 @@ class SiameseNetworkDataset(Dataset):
 
         img0 = Image.open(img0_tuple[0]).resize((image_size * 3, image_size * 3))
         img1 = Image.open(img1_tuple[0]).resize((image_size * 3, image_size * 3))
-        img0 = self.__get_one_of_ten(img0, index % 10).convert("L")
-        img1 = self.__get_one_of_ten(img1, index % 10).convert("L")
+        piece_index = random.randint(0, 9)
+        img0 = self.__get_one_of_ten(img0, piece_index).convert("L")
+        img1 = self.__get_one_of_ten(img1, piece_index).convert("L")
         img0 = PIL.ImageOps.equalize(img0)
         img1 = PIL.ImageOps.equalize(img1)
 
