@@ -36,15 +36,15 @@ class SiameseNetwork(nn.Module):
         )
 
         self.fc1 = nn.Sequential(
-            nn.Linear(16 * image_size * image_size, 800),
+            nn.Linear(16 * image_size * image_size, 500),
             nn.Dropout(dropout_rate),
             nn.ReLU(inplace=True),
 
-            nn.Linear(800, 400),
+            nn.Linear(500, 500),
             nn.Dropout(dropout_rate),
             nn.ReLU(inplace=True),
 
-            nn.Linear(400, 5))
+            nn.Linear(500, 5))
 
     def sigmoid(self, x):
         return 1 / (1 + math.exp(-x))
