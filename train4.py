@@ -61,9 +61,12 @@ class SiameseNetworkDataset(Dataset):
         return img0_tuple, img1_tuple
 
     def __get_one_of_ten(self, img, index):
-        return transforms.Compose([
+        return random.choice(transforms.Compose([
             transforms.TenCrop(image_size)
-        ])(img)[index]
+        ])(img))
+        # return transforms.Compose([
+        #     transforms.TenCrop(image_size)
+        # ])(img)[index]
 
     def __getitem__(self, index):
         print("\rDataset get image index %s" % (index,), end='')
