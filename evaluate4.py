@@ -7,7 +7,7 @@ from model import SiameseNetwork
 from config import Config
 from torch.utils.data import DataLoader, Dataset
 import sys
-from train3 import image_size
+from train4 import image_size
 
 output_dir = "output"
 if not os.path.exists(output_dir):
