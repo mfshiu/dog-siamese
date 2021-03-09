@@ -22,27 +22,27 @@ class SiameseNetwork(nn.Module):
             nn.ReLU(inplace=True),
             nn.BatchNorm2d(8),
 
+            # nn.ReflectionPad2d(1),
+            # nn.Conv2d(8, 8, kernel_size=3),
+            # nn.Dropout(dropout_rate),
+            # nn.ReLU(inplace=True),
+            # nn.BatchNorm2d(8),
+
             nn.ReflectionPad2d(1),
-            nn.Conv2d(8, 8, kernel_size=3),
+            nn.Conv2d(8, 16, kernel_size=3),
             nn.Dropout(dropout_rate),
             nn.ReLU(inplace=True),
-            nn.BatchNorm2d(8),
+            nn.BatchNorm2d(16),
 
-            # nn.ReflectionPad2d(1),
-            # nn.Conv2d(8, 16, kernel_size=3),
-            # nn.Dropout(dropout_rate),
-            # nn.ReLU(inplace=True),
-            # nn.BatchNorm2d(16),
-
-            # nn.ReflectionPad2d(1),
-            # nn.Conv2d(16, 16, kernel_size=3),
-            # nn.Dropout(dropout_rate),
-            # nn.ReLU(inplace=True),
-            # nn.BatchNorm2d(16),
+            nn.ReflectionPad2d(1),
+            nn.Conv2d(16, 16, kernel_size=3),
+            nn.Dropout(dropout_rate),
+            nn.ReLU(inplace=True),
+            nn.BatchNorm2d(16),
         )
 ##
         self.fc1 = nn.Sequential(
-            nn.Linear(8 * image_size * image_size, 1000),
+            nn.Linear(16 * image_size * image_size, 1000),
             nn.Dropout(dropout_rate),
             nn.ReLU(inplace=True),
 
