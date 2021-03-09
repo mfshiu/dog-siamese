@@ -26,9 +26,9 @@ class TestDataset(Dataset):
             transforms.ToTensor(),
         ])
 
-    def __get_one_of_ten(self, img, index):
+    def __get_one_of_five(self, img, index):
         return transforms.Compose([
-            transforms.TenCrop(image_size)
+            transforms.FiveCrop(image_size)
         ])(img)[index]
 
     def __getitem__(self, idx):
@@ -38,7 +38,7 @@ class TestDataset(Dataset):
 
         img0 = Image.open(left_img).resize((image_size * 3, image_size * 3))
         img1 = Image.open(right_img).resize((image_size * 3, image_size * 3))
-        piece_index = idx % 10
+        piece_index = idx % 5
         img0 = self.__get_one_of_ten(img0, piece_index).convert("L")
         img1 = self.__get_one_of_ten(img1, piece_index).convert("L")
         img0 = PIL.ImageOps.equalize(img0)
