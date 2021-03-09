@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 
 use_gpu = False
 register_dir = "./data/ct0202a/"
-threshold = 65
+threshold = 50
 siam_model = None
 log_lines = []
 
