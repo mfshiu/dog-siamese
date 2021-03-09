@@ -12,7 +12,7 @@ register_dir = "./data/ct0202a/"
 threshold = 50
 siam_model = None
 log_lines = []
-
+##
 
 def exam_dog(dog_id, img_path):
     exam_count = Config.exam_count

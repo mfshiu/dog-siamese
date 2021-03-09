@@ -20,7 +20,7 @@ from model import SiameseNetwork, ContrastiveLoss
 global use_gpu
 use_gpu = False
 
-image_size = 100
+image_size = 300
 
 trained_dir = "trained"
 if not os.path.exists(trained_dir):
@@ -105,7 +105,7 @@ class SiameseNetworkDataset(Dataset):
         return img0, img1, torch.from_numpy(np.array([int(img1_tuple[1] != img0_tuple[1])], dtype=np.float32))
 
     def __len__(self):
-        return len(self.imageFolderDataset.imgs) * 10
+        return len(self.imageFolderDataset.imgs) * 100
 
 
 def train(model_path):
