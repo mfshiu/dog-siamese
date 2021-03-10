@@ -78,7 +78,7 @@ def calculate_far_frr(inferences, group_size, threshold):
     # print("dogs:%d, group_size:%d" % (dogs, group_size))
     fa_base = dogs * dogs - dogs * group_size
     fr_base = dogs * group_size
-    return fa / fa_base, min(1, fr / fr_base * 2)
+    return fa / fa_base, fr / fr_base
 
 
 def verify_dogs(test_model, left_dogs, right_dogs):
