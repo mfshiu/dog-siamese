@@ -72,8 +72,8 @@ class SiameseNetworkDataset(Dataset):
         print("\rDataset get image index %s" % (index,), end='')
         img0_tuple, img1_tuple = self.__get_imgs2(index)
 
-        img0 = Image.open(img0_tuple[0]).resize((image_size * 4, image_size * 4)).crop(50, 50, 350, 350)
-        img1 = Image.open(img1_tuple[0]).resize((image_size * 4, image_size * 4)).crop(50, 50, 350, 350)
+        img0 = Image.open(img0_tuple[0]).resize((image_size * 4, image_size * 4)).crop((50, 50, 350, 350))
+        img1 = Image.open(img1_tuple[0]).resize((image_size * 4, image_size * 4)).crop((50, 50, 350, 350))
         piece_index = random.randint(0, 4)
         img0 = self.__get_one_of_five(img0, piece_index).convert("L")
         img1 = self.__get_one_of_five(img1, piece_index).convert("L")
