@@ -92,8 +92,8 @@ class SiameseNetworkDataset(Dataset):
         img1 = PIL.ImageOps.equalize(img1)
         # img0 = cv2.equalizeHist(img0)
         # img1 = cv2.equalizeHist(img1)
-        img0 = ImageEnhance.Sharpness(img0).enhance(10.0)
-        img1 = ImageEnhance.Sharpness(img1).enhance(10.0)
+        img0 = ImageEnhance.Sharpness(img0).enhance(100.0)
+        img1 = ImageEnhance.Sharpness(img1).enhance(100.0)
 
         if self.transform is not None:
             img0 = self.transform(img0)
@@ -133,7 +133,7 @@ def train(model_path):
 
     train_dataloader = DataLoader(siamese_dataset,
                                   shuffle=True,
-                                  num_workers=8,
+                                  num_workers=16,
                                   batch_size=Config.train_batch_size)
 
     global use_gpu
