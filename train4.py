@@ -60,23 +60,23 @@ class SiameseNetworkDataset(Dataset):
             img1_tuple = random.choice([x for x in self.imageFolderDataset.imgs if class_2 in x[0]])
         return img0_tuple, img1_tuple
 
-    def __get_one_of_ten(self, img, index):
+    def __get_one_of_five(self, img, index):
         # return random.choice(transforms.Compose([
         #     transforms.TenCrop(image_size)
         # ])(img))
         return transforms.Compose([
-            transforms.TenCrop(image_size)
+            transforms.FiveCrop(image_size)
         ])(img)[index]
 
     def __getitem__(self, index):
         print("\rDataset get image index %s" % (index,), end='')
         img0_tuple, img1_tuple = self.__get_imgs2(index)
 
-        img0 = Image.open(img0_tuple[0]).resize((image_size * 3, image_size * 3))
-        img1 = Image.open(img1_tuple[0]).resize((image_size * 3, image_size * 3))
-        piece_index = random.randint(0, 9)
-        img0 = self.__get_one_of_ten(img0, piece_index).convert("L")
-        img1 = self.__get_one_of_ten(img1, piece_index).convert("L")
+        img0 = Image.open(img0_tuple[0]).resize((image_size * 4, image_size * 4)).crop(50, 50, 350, 350)
+        img1 = Image.open(img1_tuple[0]).resize((image_size * 4, image_size * 4)).crop(50, 50, 350, 350)
+        piece_index = random.randint(0, 4)
+        img0 = self.__get_one_of_five(img0, piece_index).convert("L")
+        img1 = self.__get_one_of_five(img1, piece_index).convert("L")
         img0 = PIL.ImageOps.equalize(img0)
         img1 = PIL.ImageOps.equalize(img1)
 
@@ -102,7 +102,7 @@ def train(model_path):
 
     train_dataloader = DataLoader(siamese_dataset,
                                   shuffle=True,
-                                  num_workers=16,
+                                  num_workers=32,
                                   batch_size=Config.train_batch_size)
 
     global use_gpu
