@@ -102,7 +102,7 @@ def train(model_path):
 
     train_dataloader = DataLoader(siamese_dataset,
                                   shuffle=True,
-                                  num_workers=32,
+                                  num_workers=16,
                                   batch_size=Config.train_batch_size)
 
     global use_gpu
