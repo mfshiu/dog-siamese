@@ -18,7 +18,7 @@ if not os.path.exists(output_dir):
 model_path = "./trained/DogSiamese.pkl"
 use_gpu = False
 
-
+#
 class TestDataset(Dataset):
     def __init__(self, left_image, right_images):
         self.left_image = left_image
