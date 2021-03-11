@@ -20,7 +20,7 @@ from model3 import SiameseNetwork, ContrastiveLoss
 global use_gpu
 use_gpu = False
 
-image_size = 250
+image_size = 150
 
 trained_dir = "trained"
 if not os.path.exists(trained_dir):
@@ -92,8 +92,8 @@ class SiameseNetworkDataset(Dataset):
         img1 = PIL.ImageOps.equalize(img1)
         # img0 = cv2.equalizeHist(img0)
         # img1 = cv2.equalizeHist(img1)
-        img0 = ImageEnhance.Sharpness(img0).enhance(100.0)
-        img1 = ImageEnhance.Sharpness(img1).enhance(100.0)
+        # img0 = ImageEnhance.Sharpness(img0).enhance(100.0)
+        # img1 = ImageEnhance.Sharpness(img1).enhance(100.0)
 
         if self.transform is not None:
             img0 = self.transform(img0)
